@@ -1,8 +1,7 @@
 -- Add usage tracking to profiles table
-ALTER TABLE profiles ADD COLUMN subscription_plan TEXT DEFAULT 'free' CHECK (subscription_plan IN ('free', 'pro'));
-ALTER TABLE profiles ADD COLUMN decks_created_this_month INTEGER DEFAULT 0;
-ALTER TABLE profiles ADD COLUMN tokens_processed_this_month INTEGER DEFAULT 0;
-ALTER TABLE profiles ADD COLUMN last_reset_date DATE DEFAULT CURRENT_DATE;
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS decks_created_this_month INTEGER DEFAULT 0;
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS tokens_processed_this_month INTEGER DEFAULT 0;
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS last_reset_date DATE DEFAULT CURRENT_DATE;
 
 -- Create usage tracking table for detailed logs
 CREATE TABLE usage_tracking (
@@ -48,7 +47,7 @@ DECLARE
   user_plan TEXT;
   decks_created INTEGER;
 BEGIN
-  SELECT subscription_plan, decks_created_this_month 
+  SELECT subscription_status, decks_created_this_month 
   INTO user_plan, decks_created
   FROM profiles 
   WHERE id = user_id_param;
@@ -69,7 +68,7 @@ DECLARE
   tokens_processed INTEGER;
   monthly_limit INTEGER;
 BEGIN
-  SELECT subscription_plan, tokens_processed_this_month 
+  SELECT subscription_status, tokens_processed_this_month 
   INTO user_plan, tokens_processed
   FROM profiles 
   WHERE id = user_id_param;
