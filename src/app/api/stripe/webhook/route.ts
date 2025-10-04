@@ -5,6 +5,10 @@ import { stripe } from '@/lib/stripe'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 
 export async function POST(request: NextRequest) {
+  if (!stripe) {
+    return NextResponse.json({ error: 'Stripe is not configured' }, { status: 500 })
+  }
+
   const body = await request.text()
   const headersList = await headers()
   const signature = headersList.get('stripe-signature')
