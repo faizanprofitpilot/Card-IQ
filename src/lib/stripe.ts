@@ -12,27 +12,38 @@ export async function createCheckoutSession(
   userId: string,
   priceId: string = STRIPE_PRICE_ID
 ) {
+  console.log('Creating Stripe checkout session for user:', userId)
+  console.log('Using price ID:', priceId)
+  console.log('Stripe configured:', !!stripe)
+  console.log('App URL:', process.env.NEXT_PUBLIC_APP_URL)
+
   if (!stripe) {
     throw new Error('Stripe is not configured. Please add STRIPE_SECRET_KEY to your environment variables.')
   }
 
-  const session = await stripe.checkout.sessions.create({
-    customer_email: undefined, // Will be set by user
-    line_items: [
-      {
-        price: priceId,
-        quantity: 1,
+  try {
+    const session = await stripe.checkout.sessions.create({
+      customer_email: undefined, // Will be set by user
+      line_items: [
+        {
+          price: priceId,
+          quantity: 1,
+        },
+      ],
+      mode: 'subscription',
+      success_url: `${process.env.NEXT_PUBLIC_APP_URL}/payment/success`,
+      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/payment/cancel`,
+      metadata: {
+        userId,
       },
-    ],
-    mode: 'subscription',
-    success_url: `${process.env.NEXT_PUBLIC_APP_URL}/payment/success`,
-    cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/payment/cancel`,
-    metadata: {
-      userId,
-    },
-  })
+    })
 
-  return session
+    console.log('Stripe session created successfully:', session.id)
+    return session
+  } catch (error) {
+    console.error('Stripe API error:', error)
+    throw error
+  }
 }
 
 export async function createPortalSession(customerId: string) {
