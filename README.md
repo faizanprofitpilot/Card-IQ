@@ -65,7 +65,7 @@ Before you begin, ensure you have the following installed:
    STRIPE_WEBHOOK_SECRET=your_stripe_webhook_secret
 
    # App Configuration
-   NEXT_PUBLIC_APP_URL=http://localhost:3000
+   NEXT_PUBLIC_APP_URL=https://www.cardiq.xyz
    ```
 
 4. **Set up Supabase Database**
@@ -88,7 +88,7 @@ Before you begin, ensure you have the following installed:
    ```
 
 8. **Open your browser**
-   Navigate to [http://localhost:3000](http://localhost:3000)
+   Navigate to [https://www.cardiq.xyz](https://www.cardiq.xyz)
 
 ## 🗄️ Database Schema
 
