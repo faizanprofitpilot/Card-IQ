@@ -38,15 +38,25 @@ export async function POST(request: NextRequest) {
         const session = event.data.object as Stripe.Checkout.Session
         const userId = session.metadata?.userId
 
+        console.log('Processing checkout.session.completed for user:', userId)
+
         if (userId) {
           // Update user subscription status
-          await supabase
+          const { error: updateError } = await supabase
             .from('profiles')
             .update({
               subscription_status: 'pro',
               subscription_id: session.subscription as string
             })
             .eq('id', userId)
+
+          if (updateError) {
+            console.error('Error updating subscription status:', updateError)
+          } else {
+            console.log('Successfully updated user to pro status:', userId)
+          }
+        } else {
+          console.error('No userId found in session metadata')
         }
         break
       }

@@ -32,7 +32,7 @@ export async function checkUsageLimits(): Promise<UsageLimits> {
     // Get user's current usage
     const { data: profile } = await supabase
       .from('profiles')
-      .select('subscription_plan, decks_created_this_month, tokens_processed_this_month')
+      .select('subscription_status, decks_created_this_month, tokens_processed_this_month')
       .eq('id', user.id)
       .single()
 
@@ -46,7 +46,7 @@ export async function checkUsageLimits(): Promise<UsageLimits> {
       }
     }
 
-    const isPro = profile.subscription_plan === 'pro'
+    const isPro = profile.subscription_status === 'pro'
     const decksCreated = profile.decks_created_this_month || 0
     const tokensProcessed = profile.tokens_processed_this_month || 0
 
@@ -55,7 +55,7 @@ export async function checkUsageLimits(): Promise<UsageLimits> {
       canProcessTokens: isPro || tokensProcessed < 50000,
       decksRemaining: isPro ? Infinity : Math.max(0, 5 - decksCreated),
       tokensRemaining: isPro ? Infinity : Math.max(0, 50000 - tokensProcessed),
-      subscriptionPlan: profile.subscription_plan as 'free' | 'pro'
+      subscriptionPlan: profile.subscription_status as 'free' | 'pro'
     }
   } catch (error) {
     console.error('Error checking usage limits:', error)
@@ -169,7 +169,7 @@ export async function getUsageStats(): Promise<UsageStats | null> {
 
     const { data: profile } = await supabase
       .from('profiles')
-      .select('subscription_plan, decks_created_this_month, tokens_processed_this_month')
+      .select('subscription_status, decks_created_this_month, tokens_processed_this_month')
       .eq('id', user.id)
       .single()
 
@@ -178,7 +178,7 @@ export async function getUsageStats(): Promise<UsageStats | null> {
     return {
       decksCreatedThisMonth: profile.decks_created_this_month || 0,
       tokensProcessedThisMonth: profile.tokens_processed_this_month || 0,
-      subscriptionPlan: profile.subscription_plan as 'free' | 'pro'
+      subscriptionPlan: profile.subscription_status as 'free' | 'pro'
     }
   } catch (error) {
     console.error('Error getting usage stats:', error)
