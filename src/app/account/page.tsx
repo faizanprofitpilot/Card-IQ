@@ -149,7 +149,7 @@ export default function AccountPage() {
       }
     } catch (error) {
       console.error('Error creating checkout session:', error)
-      setMessage(`Failed to start upgrade process: ${error.message}`)
+      setMessage(`Failed to start upgrade process: ${error instanceof Error ? error.message : 'Unknown error'}`)
     }
   }
 
