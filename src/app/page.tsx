@@ -131,16 +131,20 @@ export default function Home() {
       })
 
       if (!response.ok) {
-        throw new Error('Failed to create checkout session')
+        const errorData = await response.json()
+        console.error('Checkout session error:', errorData)
+        throw new Error(errorData.error || 'Failed to create checkout session')
       }
 
       const { url } = await response.json()
       if (url) {
         window.location.href = url
+      } else {
+        throw new Error('No checkout URL received')
       }
     } catch (error) {
       console.error('Error creating checkout session:', error)
-      alert('Failed to start checkout process. Please try again.')
+      alert(`Failed to start checkout process: ${error.message}. Please check if Stripe is configured.`)
     } finally {
       setPaymentLoading(false)
     }

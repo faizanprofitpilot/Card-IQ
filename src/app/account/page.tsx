@@ -133,16 +133,23 @@ export default function AccountPage() {
         },
       })
 
+      if (!response.ok) {
+        const errorData = await response.json()
+        console.error('Checkout session error:', errorData)
+        setMessage(`Failed to create checkout session: ${errorData.error || 'Unknown error'}`)
+        return
+      }
+
       const { url } = await response.json()
       
       if (url) {
         window.location.href = url
       } else {
-        setMessage('Failed to create checkout session')
+        setMessage('No checkout URL received from server')
       }
     } catch (error) {
       console.error('Error creating checkout session:', error)
-      setMessage('Failed to start upgrade process')
+      setMessage(`Failed to start upgrade process: ${error.message}`)
     }
   }
 
