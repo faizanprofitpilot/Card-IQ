@@ -15,11 +15,7 @@ import {
   Crown,
   Loader2,
   CheckCircle,
-  Target,
   FileText,
-  Zap,
-  Trophy,
-  Award,
   BookOpen,
   Download
 } from 'lucide-react'
@@ -29,77 +25,16 @@ import type { Profile } from '@/types/database'
 export default function AccountPage() {
   const [profile, setProfile] = useState<Profile | null>(null)
   const [loading, setLoading] = useState(true)
-  const [updating, setUpdating] = useState(false)
   const [message, setMessage] = useState('')
-  const [userStats, setUserStats] = useState({
-    totalCards: 0,
-    totalDecks: 0,
-    studyStreak: 0,
-    weeklyGoal: 50,
-    weeklyProgress: 0,
-    totalStudyTime: 0,
-    accuracy: 0
-  })
-  const [achievements, setAchievements] = useState([
-    { id: 'first_deck', name: 'First Steps', description: 'Created your first deck', earned: true, icon: '🎯' },
-    { id: 'study_streak_7', name: 'Week Warrior', description: '7-day study streak', earned: true, icon: '🔥' },
-    { id: 'card_master', name: 'Card Master', description: 'Created 100+ cards', earned: false, icon: '👑' },
-    { id: 'accuracy_90', name: 'Perfectionist', description: '90%+ accuracy', earned: false, icon: '⭐' }
-  ])
-  const [isEditingGoal, setIsEditingGoal] = useState(false)
   const supabase = createClientComponentClient()
 
-  // Calculate level based on day streak
-  const getLevelFromStreak = (streak: number) => {
-    if (streak >= 30) return 5
-    if (streak >= 14) return 4
-    if (streak >= 7) return 3
-    if (streak >= 3) return 2
-    return 1
-  }
 
-  const getLevelTitle = (level: number) => {
-    switch (level) {
-      case 5: return 'Study Legend'
-      case 4: return 'Study Master'
-      case 3: return 'Study Warrior'
-      case 2: return 'Study Apprentice'
-      default: return 'Study Beginner'
-    }
-  }
 
-  const getNextLevelRequirement = (currentLevel: number) => {
-    switch (currentLevel) {
-      case 1: return 3
-      case 2: return 7
-      case 3: return 14
-      case 4: return 30
-      default: return null
-    }
-  }
 
   useEffect(() => {
     fetchProfile()
-    fetchUserStats()
   }, [])
 
-  const fetchUserStats = async () => {
-    try {
-      // Mock stats for demo purposes
-      const mockStats = {
-        totalCards: 47,
-        totalDecks: 3,
-        studyStreak: 12,
-        weeklyGoal: 50,
-        weeklyProgress: 23,
-        totalStudyTime: 180, // minutes
-        accuracy: 87
-      }
-      setUserStats(mockStats)
-    } catch (error) {
-      console.error('Error fetching user stats:', error)
-    }
-  }
 
   const fetchProfile = async () => {
     try {

@@ -8,8 +8,6 @@ import {
   Download, 
   Upload, 
   CheckCircle,
-  Star,
-  Users,
   ArrowRight,
   Loader2
 } from 'lucide-react'
@@ -144,7 +142,7 @@ export default function Home() {
       }
     } catch (error) {
       console.error('Error creating checkout session:', error)
-      alert(`Failed to start checkout process: ${error.message}. Please check if Stripe is configured.`)
+      alert(`Failed to start checkout process: ${error instanceof Error ? error.message : 'Unknown error'}. Please check if Stripe is configured.`)
     } finally {
       setPaymentLoading(false)
     }
