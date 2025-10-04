@@ -13,9 +13,9 @@ export const metadata: Metadata = {
   description: "AI-powered flashcard generator that converts your notes and PDFs into study flashcards instantly. Perfect for students and professionals.",
   keywords: "flashcards, study, AI, notes, PDF, education, learning",
   icons: {
-    icon: "/Card IQ logo.png",
-    shortcut: "/Card IQ logo.png",
-    apple: "/Card IQ logo.png",
+    icon: "/favicon.svg",
+    shortcut: "/favicon.svg",
+    apple: "/favicon.svg",
   },
 };
 
