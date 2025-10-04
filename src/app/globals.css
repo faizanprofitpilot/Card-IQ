@@ -1,26 +1,155 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 199 89% 48%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 199 89% 48%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 84% 4.9%;
+    --secondary: 199 89% 48%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 199 89% 48%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 94.1%;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+  }
+}
+
+@layer utilities {
+  /* 3D Card Animation Utilities */
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  
+  .transform-style-preserve-3d {
+    transform-style: preserve-3d;
+  }
+  
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+  
+  .rotate-y-180 {
+    transform: rotateY(180deg);
+  }
+  
+  /* Confetti Animation */
+  @keyframes confetti-fall {
+    0% {
+      transform: translateY(-100vh) rotate(0deg);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(100vh) rotate(720deg);
+      opacity: 0;
+    }
+  }
+  
+  .confetti {
+    animation: confetti-fall 3s linear infinite;
+  }
+  
+  /* Hover Effects */
+  .hover-lift {
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .hover-lift:hover {
+    transform: translateY(-2px);
+  }
+  
+  /* Streak Glow Effect */
+  .streak-glow {
+    box-shadow: 0 0 20px rgba(255, 165, 0, 0.3);
+  }
+
+  /* Deck Background Patterns */
+  .bg-parchment-pattern {
+    background-image: 
+      radial-gradient(circle at 20% 80%, rgba(120, 53, 15, 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(120, 53, 15, 0.05) 0%, transparent 50%),
+      linear-gradient(45deg, transparent 40%, rgba(120, 53, 15, 0.02) 50%, transparent 60%);
+    background-size: 100px 100px, 80px 80px, 20px 20px;
+  }
+
+  .bg-grid-pattern {
+    background-image: 
+      linear-gradient(rgba(59, 130, 246, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(59, 130, 246, 0.05) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  .bg-math-pattern {
+    background-image: 
+      radial-gradient(circle at 25% 25%, rgba(147, 51, 234, 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, rgba(147, 51, 234, 0.05) 0%, transparent 50%);
+    background-size: 30px 30px;
+  }
+
+  .bg-code-pattern {
+    background-image: 
+      linear-gradient(45deg, transparent 40%, rgba(34, 197, 94, 0.03) 50%, transparent 60%),
+      linear-gradient(-45deg, transparent 40%, rgba(34, 197, 94, 0.03) 50%, transparent 60%);
+    background-size: 15px 15px;
+  }
+
+  .bg-art-pattern {
+    background-image: 
+      radial-gradient(circle at 50% 50%, rgba(239, 68, 68, 0.05) 0%, transparent 70%);
+    background-size: 40px 40px;
+  }
+
+  .bg-music-pattern {
+    background-image: 
+      linear-gradient(90deg, transparent 40%, rgba(168, 85, 247, 0.05) 50%, transparent 60%);
+    background-size: 25px 25px;
+  }
+
+  .bg-default-pattern {
+    background-image: 
+      radial-gradient(circle at 50% 50%, rgba(156, 163, 175, 0.03) 0%, transparent 70%);
+    background-size: 50px 50px;
+  }
 }
