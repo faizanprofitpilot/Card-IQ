@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { headers } from 'next/headers'
 import Stripe from 'stripe'
 import { stripe } from '@/lib/stripe'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { supabaseAdmin } from '@/lib/supabase/client'
 
 export async function POST(request: NextRequest) {
   if (!stripe) {
@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Invalid signature' }, { status: 400 })
   }
 
-  const supabase = createClientComponentClient()
+  const supabase = supabaseAdmin
 
   try {
     switch (event.type) {

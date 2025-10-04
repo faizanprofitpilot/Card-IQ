@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
 import { createCheckoutSession } from '@/lib/stripe'
+import { cookies } from 'next/headers'
 
 export async function POST(request: NextRequest) {
   try {
-    const supabase = createClientComponentClient()
+    const supabase = createRouteHandlerClient({ cookies })
     const { data: { user } } = await supabase.auth.getUser()
 
     if (!user) {
